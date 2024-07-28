@@ -122,18 +122,18 @@ export default function WatchCamera({ id }: PropsType) {
     }
   }, [syncTime]);
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      const currentTime = videoRef.current.currentTime;
-      const detection = aiDetections.find(
-        (detection) => Math.abs(detection.time - currentTime) < 1
-      );
-      if (detection) {
-        console.log(`AI Detection: ${detection.className}`);
-        // You can add more logic here to show the detection result in the UI
-      }
-    }
-  };
+  // const handleTimeUpdate = () => {
+  //   if (videoRef.current) {
+  //     const currentTime = videoRef.current.currentTime;
+  //     const detection = aiDetections.find(
+  //       (detection) => Math.abs(detection.time - currentTime) < 1
+  //     );
+  //     if (detection) {
+  //       console.log(`AI Detection: ${detection.className}`);
+  //       // You can add more logic here to show the detection result in the UI
+  //     }
+  //   }
+  // };
 
   return (
     <>
