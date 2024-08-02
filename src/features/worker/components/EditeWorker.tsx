@@ -30,6 +30,8 @@ export default function EditeWorker({ id }: PropsType) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [worker, setWorker] = useState<Worker | null>(null);
+  const [role, setRole] = useState<string>("");
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {

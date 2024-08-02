@@ -4,6 +4,8 @@
 import {
   Button,
   Card,
+  IconButton,
+  InputAdornment,
   Paper,
   Table,
   TableBody,
@@ -11,12 +13,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 
 import { useEffect, useMemo, useState } from "react";
 
-import { Refresh } from "@mui/icons-material";
+import { Refresh, Search } from "@mui/icons-material";
 
 import { APP_CURRENCY } from "@/app/config/app.config";
 import AddProduct from "./components/AddProduct";
@@ -58,6 +61,7 @@ interface ApiResponse {
 }
 function Products() {
   // ============================================================================================
+  const [search, setSearch] = useState("");
 
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -89,10 +93,25 @@ function Products() {
     <div>
       <Card className="mb-4">
         <div className="flex flex-col p-4 gap-4 ">
-          <div className="flex justify-between">
+          <div className="flex flex-row justify-between items-center gap-10">
             <Typography variant="h2" fontWeight={"bold"} fontSize={24}>
               المنتجات
             </Typography>
+            <TextField
+              className="w-[30%]"
+              label="ابحث عن المنتج..."
+              variant="standard"
+              onChange={(e) => setSearch(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton type="submit" aria-label="search">
+                      <Search />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
             <div className="flex gap-4">
               <Button onClick={() => {}} endIcon={<Refresh />}>
                 تهيئة
@@ -109,64 +128,79 @@ function Products() {
         <div>
           <TableContainer>
             <Paper>
-              <Table sx={{ minWidth: 450 }} aria-label="simple table">
+              <Table
+                sx={{ minWidth: 450, overflowY: "auto" }}
+                aria-label="simple table"
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell align="center">رقم المنتج</TableCell>
                     <TableCell align="center">المنتج</TableCell>
                     <TableCell align="center">اسم الشركة المصنعة</TableCell>
-                    <TableCell align="left">اسم الرف</TableCell>
-                    <TableCell align="left">السعر</TableCell>
-                    <TableCell align="left">الكمية الاجمالية</TableCell>
-                    <TableCell align="left">الكمية المتوفرة</TableCell>
+                    <TableCell align="center">اسم الرف</TableCell>
+                    <TableCell align="center">السعر</TableCell>
+                    <TableCell align="center">الكمية الاجمالية</TableCell>
+                    <TableCell align="center">الكمية المتوفرة</TableCell>
                     <TableCell align="center">الاجرائيات</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {items.map((item) => (
-                    <TableRow
-                      key={item.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        <div className="flex flex-col items-center ">
-                          <span className="">{item.id}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        <div className="flex flex-col items-center gap-2">
-                          <span>{item.name}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell align="center">
-                        <span className="text-base">
-                          {item.category.name ?? "N/A"}
-                          {/* {item.category} */}
-                        </span>
-                      </TableCell>
-                      <TableCell align="left">
-                        <span className="text-base">
-                          {item.sector.name ?? "N/A"}
-                          {/* {item.sector} */}
-                        </span>
-                      </TableCell>
-                      <TableCell sx={{ color: 100 >= 0 ? "green" : "red" }}>
-                        <span className="text-lg  ">{item.price}</span>{" "}
-                        {APP_CURRENCY}
-                      </TableCell>{" "}
-                      <TableCell align="left">
-                        {" "}
-                        <span className="text-base">{item.stock}</span>
-                      </TableCell>
-                      <TableCell align="left">
-                        <span className="text-base">{item.min_stock}</span>
-                      </TableCell>
-                      <TableCell align="center">
-                        <EditeProduct id={item.id} />
-                        <DeleteProduct id={item.id} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {items
+                    .filter((item) => item.name.toLowerCase().includes(search))
+                    .map((item) => (
+                      <TableRow
+                        key={item.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell component="th" scope="row">
+                          <div className="flex flex-col items-center ">
+                            <span className="">{item.id}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          <div className="flex flex-col items-center gap-2">
+                            <span>{item.name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell align="center">
+                          <span className="text-base">
+                            {item.category.name ?? "N/A"}
+                            {/* {item.category} */}
+                          </span>
+                        </TableCell>
+                        <TableCell align="center">
+                          <span className="text-base">
+                            {item.sector.name ?? "N/A"}
+                            {/* {item.sector} */}
+                          </span>
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ color: 100 >= 0 ? "#689F39" : "red" }}
+                        >
+                          <span className="text-lg  ">{item.price}</span>{" "}
+                          {APP_CURRENCY}
+                        </TableCell>{" "}
+                        <TableCell align="center">
+                          {" "}
+                          <span className="text-base">{item.stock}</span>
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{
+                            color: item.min_stock >= 10 ? "#689F39" : "red",
+                          }}
+                        >
+                          <span className="text-base">{item.min_stock}</span>
+                        </TableCell>
+                        <TableCell align="center">
+                          <EditeProduct id={item.id} />
+                          <DeleteProduct id={item.id} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </Paper>

@@ -160,7 +160,7 @@ export default function EditeCamera({ id }: PropsType) {
                 </Select>
               </FormControl>
 
-              <TextField
+              {/* <TextField
                 name="ip"
                 type="ip"
                 value={cam?.ip}
@@ -169,7 +169,7 @@ export default function EditeCamera({ id }: PropsType) {
                 id="outlined-basic1"
                 label="ال ip الخاص للكميرا"
                 variant="outlined"
-              />
+              /> */}
             </Box>
           </DialogContent>
           <DialogActions>

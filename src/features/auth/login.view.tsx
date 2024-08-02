@@ -1,14 +1,26 @@
 import React, { ChangeEvent, FormEvent, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, IconButton, InputAdornment } from "@mui/material";
 import { axiosIns } from "@/app/config/axios/axios";
 import { toast } from "react-toastify";
 import pusherJs from "pusher-js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function Login() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+   const [showPassword, setShowPassword] = useState(false);
+
+   const handleClickShowPassword = () => {
+     setShowPassword((prev) => !prev);
+   };
+
+   const handleMouseDownPassword = (
+     event: React.MouseEvent<HTMLButtonElement>
+   ) => {
+     event.preventDefault();
+   };
 
   const [formData, setFormData] = useState<{
     email: string;
@@ -99,6 +111,32 @@ function Login() {
                     نسيت كلمة المرور ؟
                   </a>
                   <TextField
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full "
+                    id="outlined-basic2"
+                    label="كلمة المرور"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+{/* 
+                  <TextField
                     type="password"
                     name="password"
                     value={formData.password}
@@ -107,7 +145,7 @@ function Login() {
                     id="outlined-basic2"
                     label="كلمة المرور"
                     variant="outlined"
-                  />
+                  /> */}
                 </div>
                 {loading ? (
                   <div role="status">

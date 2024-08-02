@@ -49,7 +49,7 @@ export default function Camera() {
         `/dashboard/camera/index`
       );
       setCameras(response.data.data); // Access the data array from the response
-      console.log(response.data);
+      // console.log(response.data.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -118,9 +118,9 @@ export default function Camera() {
                 <TableCell sx={{ fontWeight: "bold" }} align="center">
                   اسم الممر
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                {/* <TableCell align="center" sx={{ fontWeight: "bold" }}>
                   رقم ip الخاص بالكاميرا
-                </TableCell>
+                </TableCell> */}
 
                 <TableCell sx={{ fontWeight: "bold" }} align="center">
                   الاجرائيات
@@ -133,7 +133,7 @@ export default function Camera() {
                   <TableCell align="center">{camera.id}</TableCell>
                   <TableCell align="center">{camera.name}</TableCell>
                   <TableCell align="center">{camera.corridor.label}</TableCell>
-                  <TableCell align="center">{camera.ip}</TableCell>
+                  {/* <TableCell align="center">{camera.ip}</TableCell> */}
                   <TableCell align="center">
                     <WatchCamera id={camera.id} />
                     <UpdateCamera id={camera.id} />

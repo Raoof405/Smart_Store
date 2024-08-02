@@ -145,7 +145,7 @@ export default function AddCamera({ dialogProps }: Props) {
               label="رقم الممر "
               variant="outlined"
             /> */}
-            <TextField
+            {/* <TextField
               name="ip"
               type="ip"
               value={formData.ip}
@@ -154,7 +154,7 @@ export default function AddCamera({ dialogProps }: Props) {
               id="outlined-basic1"
               label="ال ip الخاص للكميرا"
               variant="outlined"
-            />
+            /> */}
           </Box>
         </DialogContent>
         <DialogActions>

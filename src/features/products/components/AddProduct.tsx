@@ -106,8 +106,8 @@ export default function AddProduct({}: PropsType) {
           `/dashboard/category/index`
         );
         setSelection1(response.data.data);
-        console.log("+++++++++++++++++++++++++++");
-        console.log(selection1);
+        // console.log("+++++++++++++++++++++++++++");
+        // console.log(selection1);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -132,8 +132,8 @@ export default function AddProduct({}: PropsType) {
         `/dashboard/sector/index`
       );
       setSelection2(response.data.data);
-      console.log("============================================");
-      console.log(selection2[0]);
+      // console.log("============================================");
+      // console.log(selection2[0]);
       setLoading(false);
     } catch (error) {
       console.log(error);

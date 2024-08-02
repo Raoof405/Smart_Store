@@ -16,7 +16,7 @@ export default [
   },
   {
     text: "العمال",
-    path: "/clients",
+    path: "/worker",
     icon: FaUsers,
   },
   {

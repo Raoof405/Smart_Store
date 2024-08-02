@@ -34,7 +34,7 @@ function Router() {
     {
       layout: Dashboard,
       name: Clients,
-      path: "/clients",
+      path: "/worker",
     },
     {
       layout: Dashboard,

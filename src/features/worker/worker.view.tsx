@@ -13,8 +13,10 @@ import {
   TableBody,
   Typography,
   Button,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
-import { Add, Delete, Edit, QrCode } from "@mui/icons-material";
+import { Add, Delete, Edit, QrCode, Search } from "@mui/icons-material";
 import AddWorker from "@/features/worker/components/AddWorker";
 import { ClientItem } from "@/api/Client/GetAll";
 import EditeWorker from "./components/EditeWorker";
@@ -56,6 +58,8 @@ function Worker() {
   //     }
   //   );
   // };
+  const [search, setSearch] = useState("");
+
   const [worker, setWorker] = useState<Worker[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const fetchData = async () => {
@@ -103,12 +107,27 @@ function Worker() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            
           }}
         >
           <Typography fontSize={24} fontWeight={"bold"}>
             العمال
           </Typography>
-
+          <TextField
+            className="w-[30%]"
+            label="ابحث عن العامل..."
+            variant="standard"
+            onChange={(e) => setSearch(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton type="submit" aria-label="search">
+                    <Search />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <Button variant="contained" onClick={() => setClientModal(true)}>
             إضافة عامل
             <Add />
@@ -136,22 +155,26 @@ function Worker() {
                   </TableHead>
 
                   <TableBody>
-                    {worker.map((wk) => (
-                      <TableRow
-                        key={wk.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell align="center" component="th" scope="row">
-                          <div className="">
-                            {/* {row.isSeller ? <FaStore /> : <FaUser />} */}
-                            <span className="">{wk.id}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell align="center">
-                          <div className="flex flex-col items-center  gap-4">
-                            {/* <img
+                    {worker
+                      .filter((item) =>
+                        item.name.toLowerCase().includes(search)
+                      )
+                      .map((wk) => (
+                        <TableRow
+                          key={wk.id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell align="center" component="th" scope="row">
+                            <div className="">
+                              {/* {row.isSeller ? <FaStore /> : <FaUser />} */}
+                              <span className="">{wk.id}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell align="center">
+                            <div className="flex flex-col items-center  gap-4">
+                              {/* <img
                         // alt={row.name}
                         height={55}
                         width={55}
@@ -159,22 +182,22 @@ function Worker() {
                         // src={`${SERVER_URL}/${row.image}`}
                         src="src/assets/images/download.jfif"
                       /> */}
-                            <span className="">{wk.name}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell align="center">{wk.email}</TableCell>
-                        <TableCell align="center">{wk.user_type}</TableCell>
-                        <TableCell align="center">
-                          <QrWorker
-                            id={wk.id.toString()}
-                            // onClick={() => GenerateQRCode(wk.id.toString())}
-                          ></QrWorker>
-                          <EditeWorker id={wk.id}></EditeWorker>
+                              <span className="">{wk.name}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell align="center">{wk.email}</TableCell>
+                          <TableCell align="center">{wk.user_type}</TableCell>
+                          <TableCell align="center">
+                            <QrWorker
+                              id={wk.id.toString()}
+                              // onClick={() => GenerateQRCode(wk.id.toString())}
+                            ></QrWorker>
+                            <EditeWorker id={wk.id}></EditeWorker>
 
-                          <DeleteWorker id={wk.id}></DeleteWorker>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                            <DeleteWorker id={wk.id}></DeleteWorker>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   </TableBody>
                 </Table>
               </Table>

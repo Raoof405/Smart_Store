@@ -89,12 +89,12 @@ export default function WatchCamera({ id }: PropsType) {
     channel.bind("my-event", (data: { time: number; className: string }) => {
       // --no1;
 
+      if (videoRef.current) {
+        setSyncTime(syncTime || 0);
+      }
       setV1((prevV1) => prevV1 - 1);
       setAiDetections((prevDetections) => [...prevDetections, data]);
     });
-    if (videoRef.current) {
-      setSyncTime(syncTime || 0);
-    }
     return () => {
       pusher.unsubscribe("video-channel");
     };
@@ -122,18 +122,18 @@ export default function WatchCamera({ id }: PropsType) {
     }
   }, [syncTime]);
 
-  // const handleTimeUpdate = () => {
-  //   if (videoRef.current) {
-  //     const currentTime = videoRef.current.currentTime;
-  //     const detection = aiDetections.find(
-  //       (detection) => Math.abs(detection.time - currentTime) < 1
-  //     );
-  //     if (detection) {
-  //       console.log(`AI Detection: ${detection.className}`);
-  //       // You can add more logic here to show the detection result in the UI
-  //     }
-  //   }
-  // };
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const currentTime = videoRef.current.currentTime;
+      const detection = aiDetections.find(
+        (detection) => Math.abs(detection.time - currentTime) < 1
+      );
+      if (detection) {
+        console.log(`AI Detection: ${detection.className}`);
+        // You can add more logic here to show the detection result in the UI
+      }
+    }
+  };
 
   return (
     <>
@@ -145,11 +145,11 @@ export default function WatchCamera({ id }: PropsType) {
       >
         <VideoCameraBack className="text-white text-2xl" />
       </Button>
-      <Dialog maxWidth="md" disableScrollLock fullWidth open={open}>
+      <Dialog maxWidth="sm" disableScrollLock fullWidth open={open}>
         <form>
           <Box
             display={"flex"}
-            paddingTop={1}
+            paddingTop={2}
             paddingRight={2}
             justifyContent={"space-between"}
             alignItems={"center"}
@@ -160,7 +160,7 @@ export default function WatchCamera({ id }: PropsType) {
             </IconButton>
           </Box>
 
-          <DialogContent className="flex flex-row justify-center gap-32 items-start ">
+          <DialogContent className="flex flex-row justify-center gap-16 items-start ">
             <Box className="flex flex-col justify-center  items-start">
               {/* <video
                 ref={videoRef}
@@ -175,17 +175,19 @@ export default function WatchCamera({ id }: PropsType) {
               {/* {videoSrc ? (
                 <video
                   ref={videoRef}
-                  width="100%"
-                  height="auto"
-                  controls
+                  src="aaa.mp4"
+                  width={250}
+                  height={250}
                   autoPlay
+                  loop
+                  muted
                   onTimeUpdate={handleTimeUpdate}
-                >
-                  <source src={videoSrc} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                  className="border rounded-2xl border-none"
+                ></video>
               ) : (
-                <p>No video available</p>
+                <p className="flex flex-col justify-center items-center mt-8">
+                  No video available
+                </p>
               )} */}
               <video
                 src="aaa.mp4"
@@ -194,11 +196,15 @@ export default function WatchCamera({ id }: PropsType) {
                 autoPlay
                 loop
                 muted
+                className="border rounded-2xl border-none"
               ></video>
             </Box>
-            <Box gap={5} className="flex flex-col justify-center items-center ">
+            <Box
+              gap={5}
+              className="flex flex-col justify-center items-center mt-8"
+            >
               <Typography
-                className="flex flex-col justify-center"
+                className="flex flex-col justify-center text-[#90CAF9]"
                 variant="h2"
                 fontSize={24}
                 fontWeight={"bold"}
