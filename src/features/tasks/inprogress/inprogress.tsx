@@ -80,8 +80,8 @@ export default function InProgress() {
 
   useEffect(() => {
     fetchData();
-    // const intervalId = setInterval(fetchData, 3000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(fetchData, 3000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -128,11 +128,10 @@ export default function InProgress() {
                           {new Date(task.created_at).toLocaleString()}
                         </TableCell>
                         <TableCell align="center">
-                          <EditeTaskPending id={task.id} />
-                          <DeleteTaskPending id={task.id} />
-
-                          {/* <EditeTaskInProgress id={task.id} />
-                          <DeleteTaskInProgress id={task.id} /> */}
+                          <div className=" flex flex-row justify-center items-center gap-5">
+                            <EditeTaskPending id={task.id} />
+                            <DeleteTaskPending id={task.id} />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

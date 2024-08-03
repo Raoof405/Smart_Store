@@ -84,9 +84,9 @@ export default function QrWorker({ id }: PropsType) {
           setOpen(true);
           GenerateQRCode(id);
         }}
-        variant="text"
+        variant="outlined"
       >
-        <QrCode className="text-white" />
+        <QrCode />
       </Button>
       <Dialog maxWidth="xs" fullWidth open={open}>
         <Box

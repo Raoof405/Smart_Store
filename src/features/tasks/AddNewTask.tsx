@@ -38,7 +38,7 @@ interface Worker {
 }
 
 interface PropsType {}
-export default function AddآNewTask(props: PropsType) {
+export default function AddNewTask(props: PropsType) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   // /+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -112,7 +112,7 @@ export default function AddآNewTask(props: PropsType) {
   };
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="contained">
+      <Button onClick={() => setOpen(true)} variant="outlined">
         إضافة مهمة جديدة
         <Add />
       </Button>

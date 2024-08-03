@@ -180,8 +180,8 @@ export default function EditeProduct({ id }: PropsType) {
   };
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="text">
-        <Edit className="text-white" />
+      <Button onClick={() => setOpen(true)} variant="contained">
+        <Edit />
       </Button>
       <Dialog maxWidth="md" fullWidth open={open}>
         <form onSubmit={handleSubmit}>
@@ -210,7 +210,11 @@ export default function EditeProduct({ id }: PropsType) {
                 label="اسم المنتج "
                 variant="outlined"
               />
-              <FormControl className="col-span-12 md:col-span-4" fullWidth required>
+              <FormControl
+                className="col-span-12 md:col-span-4"
+                fullWidth
+                required
+              >
                 <InputLabel id="demo-simple-select-label">
                   اسم الشركة المصًنعة
                 </InputLabel>

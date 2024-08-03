@@ -46,7 +46,12 @@ export default function Camera() {
       // `/dashboard/camera/index?filter[statuse = todo]`;
 
       const response = await axiosIns.get<ApiResponse>(
-        `/dashboard/camera/index`
+        `/dashboard/camera/index`,
+        {
+          params: {
+            paginate: 20,
+          },
+        }
       );
       setCameras(response.data.data); // Access the data array from the response
       // console.log(response.data.data);
@@ -135,9 +140,11 @@ export default function Camera() {
                   <TableCell align="center">{camera.corridor.label}</TableCell>
                   {/* <TableCell align="center">{camera.ip}</TableCell> */}
                   <TableCell align="center">
-                    <WatchCamera id={camera.id} />
-                    <UpdateCamera id={camera.id} />
-                    <DeleteCamera id={camera.id} />
+                    <div className=" flex flex-row justify-center items-center gap-5">
+                      <WatchCamera id={camera.id} />
+                      <UpdateCamera id={camera.id} />
+                      <DeleteCamera id={camera.id} />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

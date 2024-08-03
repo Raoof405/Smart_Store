@@ -137,8 +137,8 @@ export default function EditeTaskPending({ id }: PropsType) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="text">
-        <Edit className="text-white" />
+      <Button className="" onClick={() => setOpen(true)} variant="contained">
+        <Edit />
       </Button>
       <Dialog maxWidth="md" fullWidth open={open}>
         <form onSubmit={handleSubmit}>

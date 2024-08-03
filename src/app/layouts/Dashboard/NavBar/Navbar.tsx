@@ -33,6 +33,7 @@ import { GetAllCar } from "@/api/Car/dto";
 import { Link } from "react-router-dom";
 import { LoginOutlined, Logout } from "@mui/icons-material";
 import { axiosIns } from "@/app/config/axios/axios";
+import AddNewTask from "../../../../features/tasks/AddNewTask";
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -56,9 +57,7 @@ export default function Navbar({
   const [carsList, setCarsList] = useState<GetAllCar[]>([]);
   const [warehouseList, setWarehouseList] = useState<WarehouseItem[]>([]);
 
- 
   interface Props {
- 
     window?: () => Window;
     children: React.ReactElement;
   }
@@ -191,12 +190,7 @@ export default function Navbar({
                 }}
               >
                 {" "}
-                <AddآNewTask
-                  brands={brands}
-                  inventories={warehouseList}
-                  categories={categoriesList}
-                  cars={carsList}
-                ></AddآNewTask>
+                <AddNewTask />
                 {/* <Link to="" style={{ textDecoration: "none" }}> */}
                 {/* <div className="item logout">
                     <Logout className="icon" onClick={logOut} />

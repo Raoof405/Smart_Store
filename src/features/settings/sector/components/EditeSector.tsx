@@ -167,8 +167,8 @@ export default function EditeSector({ id }: PropsType) {
   };
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="text">
-        <Edit className="text-white" />
+      <Button onClick={() => setOpen(true)} variant="contained">
+        <Edit  />
       </Button>
       <Dialog maxWidth="sm" fullWidth open={open}>
         <form onSubmit={handleSubmit}>

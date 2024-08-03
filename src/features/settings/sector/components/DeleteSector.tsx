@@ -53,8 +53,8 @@ export default function DeleteSector({ id }: PropsType) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="text">
-        <Delete className="text-white" />
+      <Button onClick={() => setOpen(true)} variant="outlined">
+        <Delete />
       </Button>
       <Dialog maxWidth="xs" fullWidth open={open}>
         <form onSubmit={handleClose}>

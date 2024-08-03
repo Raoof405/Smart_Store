@@ -62,13 +62,17 @@ interface ApiResponse {
 function Products() {
   // ============================================================================================
   const [search, setSearch] = useState("");
-
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const fetchData = async () => {
     try {
       const response = await axiosIns.get<ApiResponse>(
-        `/dashboard/product/index`
+        `/dashboard/product/index`,
+        {
+          params: {
+            paginate: 30,
+          },
+        }
       );
       setItems(response.data.data);
       console.log(response.data);
@@ -190,14 +194,16 @@ function Products() {
                         <TableCell
                           align="center"
                           sx={{
-                            color: item.min_stock >= 10 ? "#689F39" : "red",
+                            color: item.min_stock > 5 ? "#689F39" : "red",
                           }}
                         >
                           <span className="text-base">{item.min_stock}</span>
                         </TableCell>
                         <TableCell align="center">
-                          <EditeProduct id={item.id} />
-                          <DeleteProduct id={item.id} />
+                          <div className=" flex flex-row justify-center items-center gap-5">
+                            <EditeProduct id={item.id} />
+                            <DeleteProduct id={item.id} />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

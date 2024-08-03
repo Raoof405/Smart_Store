@@ -39,7 +39,12 @@ export default function Pathes() {
   const fetchData = async () => {
     try {
       const response = await axiosIns.get<ApiResponse>(
-        `/dashboard/corridor/index`
+        `/dashboard/corridor/index`,
+        {
+          params: {
+            paginate: 20,
+          },
+        }
       );
       setPaths(response.data.data); // Access the data array from the response
       console.log(response.data);
@@ -117,8 +122,10 @@ export default function Pathes() {
                   <TableCell align="left">{path.label}</TableCell>
                   {/* <TableCell>{wh.totalParts}</TableCell> */}
                   <TableCell align="center">
-                    <EditePath id={path.id} />
-                    <DeletePath id={path.id} />
+                    <div className=" flex flex-row justify-center items-center gap-5">
+                      <EditePath id={path.id} />
+                      <DeletePath id={path.id} />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

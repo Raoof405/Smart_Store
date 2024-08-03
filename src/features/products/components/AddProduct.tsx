@@ -99,31 +99,31 @@ export default function AddProduct({}: PropsType) {
   //
 
   // ==========================================================================================
-    //  to fetch selection data 1 category
-    const fetchSel1 = async () => {
-      try {
-        const response = await axiosIns.get<{ data: Category[] }>(
-          `/dashboard/category/index`
-        );
-        setSelection1(response.data.data);
-        // console.log("+++++++++++++++++++++++++++");
-        // console.log(selection1);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
+  //  to fetch selection data 1 category
+  const fetchSel1 = async () => {
+    try {
+      const response = await axiosIns.get<{ data: Category[] }>(
+        `/dashboard/category/index`
+      );
+      setSelection1(response.data.data);
+      // console.log("+++++++++++++++++++++++++++");
+      // console.log(selection1);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
 
-        // setError("Error fetching data");
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-    useEffect(() => {
-      fetchSel1();
-    }, []);
-    const handleChangeselction1 = (event: SelectChangeEvent<string | number>) => {
-      setCategoryId(event.target.value as number); // Update state with selected category ID
-    };
+      // setError("Error fetching data");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchSel1();
+  }, []);
+  const handleChangeselction1 = (event: SelectChangeEvent<string | number>) => {
+    setCategoryId(event.target.value as number); // Update state with selected category ID
+  };
   // ==========================================================================================
   //  to fetch selection data 2 sector
   const fetchSel2 = async () => {
@@ -275,7 +275,7 @@ export default function AddProduct({}: PropsType) {
                 onChange={handleInputChange}
                 className="col-span-12 md:col-span-4"
                 id="outlined-basic1"
-                label="الكمية الاجمالية"
+                label="الكمية الاجمالية على الرف "
                 variant="outlined"
               />{" "}
               <TextField
@@ -286,7 +286,7 @@ export default function AddProduct({}: PropsType) {
                 onChange={handleInputChange}
                 className="col-span-12 md:col-span-4"
                 id="outlined-basic1"
-                label="الكمية المتوفرة"
+                label="الحد الأدنى للكمية"
                 variant="outlined"
               />
               {/* لرفع الصورة  */}

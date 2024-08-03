@@ -20,12 +20,17 @@ import {
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import Upload from "../../../../shared/components/Upload";
+import ImageUpload from "../../../../shared/components/Upload";
+import Editor from "./test";
+
 interface Sectors {
   created_at: string;
   id: number;
   name: string | null;
   camera: Camera;
   corridor: Corridor;
+  image?: File | null;
 }
 interface Camera {
   created_at: string;
@@ -47,10 +52,48 @@ interface ApiResponse {
 interface Props {
   dialogProps: DialogProps;
 }
+import {
+  ShapeEditor,
+  ImageLayer,
+  DrawLayer,
+  wrapShape,
+} from "react-shape-editor";
+import upload_icon from "../../../../assets/images/download.jfif";
+import { UploadFile, UploadFileOutlined } from "@mui/icons-material";
+import { IconButton, Typography } from "@mui/material";
+
+interface ShapeItem {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+// Util Function for replacing items in an array
+function arrayReplace<T>(arr: T[], index: number, item: T | T[]): T[] {
+  return [
+    ...arr.slice(0, index),
+    ...(Array.isArray(item) ? item : [item]),
+    ...arr.slice(index + 1),
+  ];
+}
+
+// Rectangle Shape
+const RectShape = wrapShape(
+  ({ width, height }: { width: number; height: number }) => (
+    <rect width={width} height={height} fill="rgba(0,0,255,0.5)" />
+  )
+);
+
+let idIterator = 1;
 
 export default function AddSector({ dialogProps }: Props) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  console.log(imageUrl);
+
   // /+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   const [selection1, setSelection1] = useState<Camera[]>([]);
   const [cameraId, setCameraId] = useState<number | string>("");
@@ -62,10 +105,12 @@ export default function AddSector({ dialogProps }: Props) {
     name: string;
     corridor_id: number; // required
     camera_id: number; // required
+    // image: File;
   }>({
     name: "",
     corridor_id: 0, // required
     camera_id: 0, // required
+    // image: null,
   });
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +129,8 @@ export default function AddSector({ dialogProps }: Props) {
         corridor_id: corridorId,
         camera_id: cameraId,
         name: formData.name,
+
+        // item: items, //for send coordnaites
       })
       .then((res) => {
         console.log(res.data);
@@ -149,8 +196,44 @@ export default function AddSector({ dialogProps }: Props) {
   const handleChangeselction2 = (event: SelectChangeEvent<string | number>) => {
     setCorridorId(event.target.value as number); // Update state with selected category ID
   };
+
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  const [items, setItems] = useState<ShapeItem[]>([
+    // { id: "1", x: 20, y: 120, width: 145, height: 140 },
+  ]);
+
+  console.log(items);
+
+  const [file, setFile] = useState<string | null>(null);
+
+  const [{ vectorHeight, vectorWidth }, setVectorDimensions] = useState({
+    vectorHeight: 0,
+    vectorWidth: 0,
+  });
+
+  const uploadIconStyle: React.CSSProperties = {
+    display: "inline",
+    maxWidth: 500,
+    maxHeight: 500,
+  };
+
+  // File change handler
+  const fileChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+
+    if (!selectedFile) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      setFile(e.target?.result as string);
+    };
+
+    reader.readAsDataURL(selectedFile);
+  };
+  const [isIconVisible, setIsIconVisible] = useState(true);
+
   return (
-    <Dialog maxWidth="sm" fullWidth {...dialogProps}>
+    <Dialog maxWidth="md" fullWidth {...dialogProps}>
       <form onSubmit={handelsubmit}>
         <DialogTitle>إضافة الرف</DialogTitle>
         <DialogContent>
@@ -161,12 +244,12 @@ export default function AddSector({ dialogProps }: Props) {
               type="text"
               value={formData.name}
               onChange={handleInputChange}
-              className="col-span-12 md:col-span-6"
+              className="col-span-12 md:col-span-4"
               id="outlined-basic1"
               label="اسم الممر"
               variant="outlined"
             />
-            <FormControl className="col-span-12 md:col-span-6" fullWidth>
+            <FormControl className="col-span-12 md:col-span-4" fullWidth>
               <InputLabel id="demo-simple-select-label">
                 اسم الكاميرا{" "}
               </InputLabel>
@@ -186,8 +269,8 @@ export default function AddSector({ dialogProps }: Props) {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>{" "}
-            <FormControl className="col-span-12 md:col-span-6" fullWidth>
+            </FormControl>
+            <FormControl className="col-span-12 md:col-span-4" fullWidth>
               <InputLabel id="demo-simple-select-label">اسم الممر </InputLabel>
               <Select
                 name="corridor_id"
@@ -206,6 +289,104 @@ export default function AddSector({ dialogProps }: Props) {
                 ))}
               </Select>
             </FormControl>
+            {/* for upload image with detected X & Y & width and hight */}
+            <div className="col-span-12 md:col-span-12">
+              <div className="flex flex-row justify-center">
+                <div>
+                  {isIconVisible && (
+                    <>
+                      <IconButton
+                        color="primary"
+                        aria-label="upload picture"
+                        component="label"
+                        sx={{ fontSize: "2rem" }}
+                      >
+                        <input
+                          id="fileInput"
+                          hidden
+                          accept="image/*"
+                          type="file"
+                          onChange={fileChangedHandler}
+                        />
+                        <UploadFileOutlined fontSize="inherit" />
+                      </IconButton>
+                    </>
+                  )}
+                </div>
+
+                <div>
+                  <ShapeEditor
+                    style={uploadIconStyle}
+                    vectorWidth={vectorWidth}
+                    vectorHeight={vectorHeight}
+                  >
+                    <ImageLayer
+                      src={file || upload_icon}
+                      // alt={"Uploaded image"}
+
+                      // style={uploadIconStyle}
+                      // responsive
+                      onLoad={({ naturalWidth, naturalHeight }) => {
+                        setVectorDimensions({
+                          vectorWidth: naturalWidth,
+                          vectorHeight: naturalHeight,
+                        });
+                      }}
+                    />
+                    <DrawLayer
+                      onAddShape={({ x, y, width, height }) => {
+                        setItems((currentItems) => [
+                          ...currentItems,
+                          { id: `id${idIterator}`, x, y, width, height },
+                        ]);
+                        idIterator += 1;
+                      }}
+                    />
+                    {items.map((item, index) => {
+                      const { id, height, width, x, y } = item;
+                      return (
+                        <RectShape
+                          key={id}
+                          shapeId={id}
+                          height={height}
+                          width={width}
+                          x={x}
+                          y={y}
+                          onChange={(newRect) => {
+                            setItems((currentItems) =>
+                              arrayReplace(currentItems, index, {
+                                ...item,
+                                ...newRect,
+                              })
+                            );
+                            console.log(newRect);
+                          }}
+                          onDelete={() => {
+                            setItems((currentItems) =>
+                              arrayReplace(currentItems, index, [])
+                            );
+                          }}
+                        />
+                      );
+                    })}
+                  </ShapeEditor>
+                </div>
+              </div>
+              {/* <Editor /> */}
+              {/* <Controller
+                control={control}
+                name="image"
+                render={({ field }) => (
+                  <ImageUpload
+                    {...field}
+                    onChangeUrl={setImageUrl}
+                    url={imageUrl}
+                    label="صورة الرف"
+                    name="image"
+                  />
+                )}
+              /> */}
+            </div>
           </Box>
         </DialogContent>
         <DialogActions>

@@ -48,8 +48,8 @@ export default function DeleteCamera({ id }: PropsType) {
           theme: "light",
           type: "success",
         });
-         setOpen(false);
-         window.location.reload();
+        setOpen(false);
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
@@ -57,8 +57,8 @@ export default function DeleteCamera({ id }: PropsType) {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="text">
-        <Delete className="text-white" />
+      <Button onClick={() => setOpen(true)} variant="outlined">
+        <Delete />
       </Button>
       <Dialog maxWidth="xs" fullWidth open={open}>
         <form onSubmit={handleClose}>

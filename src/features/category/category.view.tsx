@@ -50,7 +50,12 @@ function Category() {
   const [items, setItems] = useState<category[]>([]);
   const fetchData = async () => {
     await axiosIns
-      .get<ApiResponse>(`/dashboard/category/index`)
+      .get<ApiResponse>(`/dashboard/category/index`, {
+        params: {
+         
+          paginate: 20,
+        },
+      })
       .then((response) => {
         setItems(response.data.data);
         setLoading(false);
@@ -142,8 +147,10 @@ function Category() {
                         </TableCell>
 
                         <TableCell align="center">
-                          <EditeCategory id={item.id} />
-                          <DeleteCategory id={item.id} />
+                          <div className=" flex flex-row justify-center items-center gap-5">
+                            <EditeCategory id={item.id} />
+                            <DeleteCategory id={item.id} />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

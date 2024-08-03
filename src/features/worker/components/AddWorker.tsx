@@ -127,7 +127,7 @@ export default function AddWorker({ isOpen, onSetOpen }: Props) {
               <FormControl
                 className="col-span-12 md:col-span-6"
                 fullWidth
-                required
+                // required
               >
                 <InputLabel id="demo-simple-select-label">
                   نوع العامل
@@ -140,11 +140,11 @@ export default function AddWorker({ isOpen, onSetOpen }: Props) {
                   label="نوع العامل"
                   variant="outlined"
                 >
-                  <MenuItem value="admin">Admin</MenuItem>
+                  {/* <MenuItem value="admin">Admin</MenuItem> */}
                   <MenuItem value="user">User</MenuItem>
                 </Select>
               </FormControl>
-             
+
               {/* <TextField
                 required
                 name="user_type"

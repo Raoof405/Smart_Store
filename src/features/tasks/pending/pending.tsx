@@ -57,8 +57,9 @@ export default function Pending() {
         {
           params: {
             filters: {
-              status: "todo", 
+              status: "todo",
             },
+            paginate: 20,
           },
         }
       );
@@ -103,7 +104,12 @@ export default function Pending() {
 
                       <TableCell align="center">اسم العامل</TableCell>
                       <TableCell align="center">تاريخ الانشاء</TableCell>
-                      <TableCell align="center">الاجرائيات</TableCell>
+                      <TableCell
+                        className="flex flex-row justify-center items-center "
+                        align="center"
+                      >
+                        الاجرائيات
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody style={{ color: "white" }}>
@@ -126,8 +132,10 @@ export default function Pending() {
                           {new Date(task.created_at).toLocaleString()}
                         </TableCell>
                         <TableCell align="center">
-                          <EditeTaskPending id={task.id} />
-                          <DeleteTaskPending id={task.id} />
+                          <div className=" flex flex-row justify-center items-center gap-5">
+                            <EditeTaskPending id={task.id} />
+                            <DeleteTaskPending id={task.id} />
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

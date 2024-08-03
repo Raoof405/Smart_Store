@@ -107,7 +107,6 @@ function Worker() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            
           }}
         >
           <Typography fontSize={24} fontWeight={"bold"}>
@@ -188,13 +187,15 @@ function Worker() {
                           <TableCell align="center">{wk.email}</TableCell>
                           <TableCell align="center">{wk.user_type}</TableCell>
                           <TableCell align="center">
-                            <QrWorker
-                              id={wk.id.toString()}
-                              // onClick={() => GenerateQRCode(wk.id.toString())}
-                            ></QrWorker>
-                            <EditeWorker id={wk.id}></EditeWorker>
+                            <div className=" flex flex-row justify-center items-center gap-2">
+                              <QrWorker
+                                id={wk.id.toString()}
+                                // onClick={() => GenerateQRCode(wk.id.toString())}
+                              ></QrWorker>
+                              <EditeWorker id={wk.id}></EditeWorker>
 
-                            <DeleteWorker id={wk.id}></DeleteWorker>
+                              <DeleteWorker id={wk.id}></DeleteWorker>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}

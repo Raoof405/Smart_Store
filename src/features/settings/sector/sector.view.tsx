@@ -52,7 +52,11 @@ export default function Sector() {
   const fetchData = async () => {
     try {
       const response = await axiosIns.get<ApiResponse>(
-        `/dashboard/sector/index`
+        `/dashboard/sector/index`, {
+        params: {
+          paginate: 20,
+        },
+      }
       );
       setSectors(response.data.data); // Access the data array from the response
       console.log(response.data);
@@ -75,7 +79,6 @@ export default function Sector() {
 
   //stage
   const [dialogOpen, setdialogOpen] = useState(false);
-  const [modifyDto] = useState<WarehouseItem | null>(null);
 
   return (
     <div>
@@ -141,11 +144,11 @@ export default function Sector() {
                   <TableCell align="center">{sector.corridor.label}</TableCell>
                   <TableCell align="center">{sector.camera.name}</TableCell>
                   <TableCell align="center">
-                    <UpdateSector id={sector.id} />
-                    <DeleteSector id={sector.id} />
+                    <div className=" flex flex-row justify-center items-center gap-5">
+                      <UpdateSector id={sector.id} />
+                      <DeleteSector id={sector.id} />
+                    </div>{" "}
                     {/* <ImageWithRectangle  /> */}
-
-
                   </TableCell>
                 </TableRow>
               ))}
